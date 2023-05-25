@@ -32,71 +32,76 @@
     </nav>
 
     <div class="container-sm mt-5">
-        <form action="{{ route('employees.store') }}" method="POST">
-            @csrf
+        <form action="{{ route('employees.update',['employee' => $employee->employee_id]) }}" method="POST">
+            @method('put')
+            <input type="hidden" name="employee_id" id="employee_id" value="{{ $employee->employee_id }}">
             <div class="row justify-content-center">
                 <div class="p-5 bg-light rounded-3 border col-xl-6">
-
                     <div class="mb-3 text-center">
                         <i class="bi-person-circle fs-1"></i>
-                        <h4>Create Employee</h4>
+                        <h4>Edit Employee</h4>
                     </div>
                     <hr>
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="firstName" class="form-label">First Name</label>
-                            <input class="form-control @error('firstName') is-invalid @enderror autofocus" type="text" name="firstName" id="firstName" value="{{ old('firstName')}}" placeholder="Enter First Name">
-                            @error('firstName')
-                            <div class="text-danger">{{ $message}}</div>
-                            @enderror
+                            <input class="form-control" type="text" name="firstName" id="firstName" value="{{ $employee->firstname }}" placeholder="Enter First Name">
+                            @if ($errors->has('firstName'))
+                                <span>
+                                    {{ $error }}
+                                </span>
+                            @endif
                         </div>
-                        <div class="col-md-6 mb-3 ">
+                        <div class="col-md-6 mb-3">
                             <label for="lastName" class="form-label">Last Name</label>
-                            <input class="form-control @error('lastName') is-invalid @enderror autofocus" type="text" name="lastName" id="lastName" value="{{ old('lastName')}}" placeholder="Enter Last Name">
-                            @error('lastName')
-                            <div class="text-danger">{{ $message}}</div>
-                            @enderror
+                            <input class="form-control" type="text" name="lastName" id="lastName" value="{{ $employee->lastname }}" placeholder="Enter Last Name">
+                            @if ($errors->has('lastName'))
+                                <span>
+                                    <strong>{{ $error }}</strong>
+                                </span>
+                            @endif
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="email" class="form-label">Email</label>
-                            <input class="form-control @error('email') is-invalid @enderror autofocus" type="text" name="email" id="email" value="{{ old('email')}}"  placeholder="Enter Email">
-                            @error('email')
-                            <div class="text-danger">{{ $message}}</div>
-                            @enderror
+                            <input class="form-control" type="text" name="email" id="email" value="{{ $employee->email }}" placeholder="Enter Email">
+                            @if ($errors->has('email'))
+                                <span>
+                                    <strong>{{ $error }}</strong>
+                                </span>
+                            @endif
                         </div>
                         <div class="col-md-6 mb-3">
                             <label for="age" class="form-label">Age</label>
-                            <input class="form-control @error('age') is-invalid @enderror autofocus" type="text" name="age" id="age" value="{{ old('age')}}" placeholder="Enter Age">
-                            @error('age')
-                            <div class="text-danger">{{ $message}}</div>
-                            @enderror
+                            <input class="form-control" type="text" name="age" id="age" value="{{ $employee->age }}" placeholder="Enter Age">
+                            @if ($errors->has('age'))
+                                <span>
+                                    <strong>{{ $error }}</strong>
+                                </span>
+                            @endif
                         </div>
-                        <div class="col-md-12 mb-3">
-                            <label for="position" class="form-label">Position</label>
-                            <select name="position" id="position" class="form-select">
-                                @foreach ($positions as $position)
-                                    <option value="{{ $position->id }}" {{ old('position') == $position->id ? 'selected' : '' }}>{{ $position->code.' - '.$position->name }}</option>
-                                @endforeach
-                            </select>
-                            @error('position')
-                                <div class="text-danger"><small>{{ $message }}</small></div>
-                            @enderror
-                        </div>
+                    </div>
+                    <div class="col-md-12 mb-3">
+                        <label for="position" class="form-label">Position</label>
+                        <select name="position" id="position" class="form-select">
+                            @foreach ($positions as $position)
+                                <option value="{{ $position->id }}" {{ $employee->id == $position->id ? 'selected' : '' }} > {{ $position->code.' - '.$position->name }}></option>
+                            @endforeach
+                        </select>
                     </div>
                     <hr>
                     <div class="row">
                         <div class="col-md-6 d-grid">
-                            <a href="{{ route('employees.index') }}" class="btn btn-outline-dark btn-lg mt-3"><i class="bi-arrow-left-circle me-2"></i> Cancel</a>
+                            <a href="{{ route('employees.index') }}" class="btn btn-outline-dark btn-lg mt-3"><i class="bi-arrow-left-circle me-2"></i>Cancel</a>
                         </div>
                         <div class="col-md-6 d-grid">
-                            <button type="submit" class="btn btn-dark btn-lg mt-3"><i class="bi-check-circle me-2"></i> Save</button>
+                            <button type="submit" class="btn btn-dark btn-lg mt-3"><i class="bi-check-circle me-2"></i>Edit</button>
                         </div>
                     </div>
                 </div>
             </div>
+            @csrf
         </form>
     </div>
-
     @vite('resources/js/app.js')
 </body>
 </html>
